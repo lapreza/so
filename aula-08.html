@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 08: Algoritmos de Escalonamento de CPU | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 08 • 25/09/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Algoritmos de Escalonamento de CPU</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo dos critérios e políticas de alocação de tempo do processador: algoritmos FIFO (FCFS), SJF, Round Robin (RR) e Escalonamento por Prioridades.
+        </p>
+      </header>
+
+      <!-- Seção 1: O Papel do Escalonador -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Escalonador de CPU (CPU Scheduler)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Em um ambiente com multiprogramação, o <strong>Escalonador de CPU</strong> (ou escalonador de curto prazo) é o módulo do Sistema Operacional encarregado de selecionar qual processo, dentre os que estão no estado de <em>Pronto</em> na memória RAM, receberá a CPU para execução.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O escalonamento pode ser dividido em duas categorias quanto à capacidade de interrupção:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Escalonamento Não-Preempção (Non-Preemptive)</h4>
+            <p class="text-slate-600">
+              O processo retém a CPU até que seja voluntariamente encerrado ou bloqueado ao solicitar uma operação de Entrada/Saída (E/S).
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Escalonamento Preemptivo (Preemptive)</h4>
+            <p class="text-slate-600">
+              O Sistema Operacional pode interromper e retirar a CPU de um processo em execução de forma forçada (ex: fim do *quantum* de tempo ou chegada de processo com maior prioridade).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 2: Métricas de Avaliação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Critérios e Métricas de Escalonamento</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para comparar a eficiência dos algoritmos de escalonamento, utilizam-se métricas quantitativas padrão:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Utilização da CPU:</strong>
+            Percentual de tempo em que a CPU permanece ocupada executando instruções do usuário ou do núcleo.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Vazão (Throughput):</strong>
+            Número de processos concluídos por unidade de tempo.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Tempo de Retorno / Execução (Turnaround Time):</strong>
+            Intervalo total decorrido entre o momento da submissão do processo e a sua conclusão completa.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Tempo de Espera (Waiting Time):</strong>
+            Soma de todos os intervalos de tempo que o processo permaneceu na fila no estado de <em>Pronto</em>.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Tempo de Resposta (Response Time):</strong>
+            Intervalo de tempo entre a submissão de uma requisição e a produção da primeira resposta ao usuário.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Os Principais Algoritmos -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Algoritmos Clássicos de Escalonamento</h2>
+
+        <div class="space-y-6 my-6">
+          
+          <!-- FIFO -->
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">1. FIFO / FCFS (First-In, First-Out / First-Come, First-Served)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+              O processo que solicitar a CPU primeiro é atendido primeiro. É um algoritmo **não-preemptivo** e extremamente simples (implementado por uma fila de dados simples).
+            </p>
+            <div class="p-3 bg-white rounded border border-slate-200 text-xs text-slate-600">
+              <strong class="text-slate-900 block mb-1">Efeito Comboio (Convoy Effect):</strong>
+              Ocorre quando um processo longo intensivo em CPU (*CPU-bound*) retém o processador, forçando vários processos curtos de E/S (*I/O-bound*) a aguardarem na fila, elevando o Tempo Médio de Espera.
+            </div>
+          </div>
+
+          <!-- SJF -->
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">2. SJF (Shortest Job First)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+              Associa a cada processo a duração da sua próxima rajada de CPU (*CPU burst*). O processo com a menor rajada de CPU é selecionado para executar. Oferece o **menor Tempo Médio de Espera** provado matematicamente.
+            </p>
+            <div class="p-3 bg-white rounded border border-slate-200 text-xs text-slate-600">
+              <strong class="text-slate-900 block mb-1">Versão Preemptiva (SRTF - Shortest Remaining Time First):</strong>
+              Se um novo processo chega à fila com um tempo restante menor que o tempo restante do processo atual em execução, a CPU sofre preempção.
+            </div>
+          </div>
+
+          <!-- Round Robin -->
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">3. Round Robin (RR - Alternância Circular)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+              Projetado especificamente para sistemas de tempo compartilhado (*Time-Sharing*). A cada processo é concedida uma pequena fatia de tempo chamada de **Quantum** (tipicamente de 10 a 100 milissegundos). Após o término do quantum, o processo sofre preempção e retorna para o fim da fila circular.
+            </p>
+            <div class="p-3 bg-white rounded border border-slate-200 text-xs text-slate-600">
+              <strong class="text-slate-900 block mb-1">Impacto do Tamanho do Quantum:</strong>
+              Se o quantum for **muito grande**, o Round Robin se comporta exatamente como o FIFO. Se for **muito pequeno**, a sobretaxa de troca de contexto degrada o desempenho global do sistema.
+            </div>
+          </div>
+
+          <!-- Prioridades -->
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">4. Escalonamento por Prioridades (Priority Scheduling)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed text-justify">
+              A cada processo é associado um número inteiro de prioridade. A CPU é alocada ao processo de maior prioridade (padrão numérico varia conforme o SO).
+            </p>
+            <div class="p-3 bg-white rounded border border-slate-200 text-xs text-slate-600">
+              <strong class="text-slate-900 block mb-1">Problema da Inanição (Starvation) e Solução por Envelhecimento (Aging):</strong>
+              Processos de baixa prioridade podem nunca ser executados se houver um fluxo constante de processos de alta prioridade. A solução é a técnica de <em>Aging</em>, que aumenta gradualmente a prioridade dos processos que aguardam há muito tempo na fila.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Seção 4: Matriz Comparativa -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Tabela Comparativa de Algoritmos</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Algoritmo</th>
+                <th class="p-3">Tipo</th>
+                <th class="p-3">Vantagem Principal</th>
+                <th class="p-3">Desvantagem Principal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">FIFO / FCFS</td>
+                <td class="p-3">Não-Preemptivo</td>
+                <td class="p-3">Simplicidade de implementação.</td>
+                <td class="p-3">Tempo médio de espera elevado (Efeito Comboio).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-

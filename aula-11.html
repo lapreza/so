@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 11: Gerência de Memória | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 11 • 16/10/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Conceitos de Gerência de Memória: Alocação Contígua, Paginação e Segmentação</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo da organização da memória principal (RAM), abstração do espaço de endereçamento, mecanismos de alocação de memória e técnicas de gerenciamento lógico.
+        </p>
+      </header>
+
+      <!-- Seção 1: Papel do Subsistema de Memória -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Papel do Gerenciamento de Memória</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A <strong>Memória Principal (RAM)</strong> é o repositório central de programas em execução e dados utilizados pela CPU. Como a memória física é limitada e compartilhada entre múltiplos processos, o Sistema Operacional precisa alocar dinamicamente espaços de memória, garantir o isolamento e proteção entre processos e traduzir endereços lógicos em endereços físicos.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A unidade de hardware responsável pela tradução de endereços em tempo de execução é a <strong>MMU (Memory Management Unit)</strong>.
+        </p>
+      </section>
+
+      <!-- Seção 2: Alocação Contígua Simples e Particionada -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Alocação Contígua de Memória</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Na <strong>Alocação Contígua</strong>, cada processo ocupa um bloco único e ininterrupto de endereços de memória física.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Partições Fixas vs. Variáveis</h4>
+            <p class="text-slate-600">
+              Nas <em>partições fixas</em>, a RAM é dividida em blocos de tamanho predefinido. Nas <em>partições variáveis</em>, os blocos são alocados sob demanda conforme a necessidade do processo.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Estratégias de Alocação (Fit)</h4>
+            <p class="text-slate-600">
+              <strong>First-Fit:</strong> Aloca no primeiro bloco livre suficiente.<br>
+              <strong>Best-Fit:</strong> Aloca no menor bloco suficiente.<br>
+              <strong>Worst-Fit:</strong> Aloca no maior bloco disponível.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 text-xs text-slate-700 space-y-2">
+          <strong class="text-slate-900 block font-semibold">Fragmentação Interna e Externa:</strong>
+          <p>• <strong>Fragmentação Interna:</strong> Ocorre quando o espaço alocado ao processo é maior do que o espaço realmente solicitado (sobra espaço inutilizado dentro da partição).</p>
+          <p>• <strong>Fragmentação Externa:</strong> Ocorre quando a soma dos blocos livres na memória seria suficiente para um novo processo, mas o espaço está pulverizado em pequenos blocos não contíguos.</p>
+        </div>
+      </section>
+
+      <!-- Seção 3: Paginação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Paginação (Paging)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A <strong>Paginação</strong> elimina a necessidade de alocação contígua ao dividir a memória física em blocos de tamanho fixo chamados <strong>Molduras de Página (Frames)</strong>, e o espaço de endereçamento lógico do processo em blocos de mesmo tamanho chamados <strong>Páginas (Pages)</strong>.
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Tabela de Páginas (Page Table):</strong>
+            Estrutura mantida pelo SO para mapear as páginas lógicas de cada processo nas molduras físicas correspondentes na RAM.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">TLB (Translation Lookaside Buffer):</strong>
+            Memória cache de altíssima velocidade localizada dentro da MMU que armazena os mapeamentos de páginas mais recentes, reduzindo a latência no acesso à RAM.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Segmentação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Segmentação (Segmentation)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A <strong>Segmentação</strong> é um esquema de gerenciamento que reflete a visão do programador sobre a memória. Em vez de dividir o código em páginas de tamanho fixo, a memória é dividida em módulos lógicos de tamanho variável chamados <strong>Segmentos</strong> (ex: segmento de código, segmento de dados, pilha, tabela de símbolos).
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Cada endereço lógico consiste num par <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">&lt;número_do_segmento, deslocamento&gt;</code> e é validado através de uma <strong>Tabela de Segmentos</strong> que armazena o endereço base e o limite de cada segmento.
+        </p>
+      </section>
+
+      <!-- Seção 5: Tabela Comparativa -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Tabela Comparativa de Gerenciamento de Memória</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Técnica</th>
+                <th class="p-3">Unidade de Divisão</th>
+                <th class="p-3">Tipo de Fragmentação</th>
+                <th class="p-3">Vantagem Principal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Alocação Contígua</td>
+                <td class="p-3">Blocos Variáveis/Fixos</td>
+                <td class="p-3">Externa (Variável) / Interna (Fixa)</td>
+                <td class="p-3">Simplicidade de implementação no hardware.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Paginação</td>
+                <td class="p-3">Páginas de Tamanho Fixo</td>
+                <td class="p-3">Apenas Interna (na última página)</td>
+                <td class="p-3">Elimina completamente a fragmentação externa.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Segmentação</td>
+                <td class="p-3">Segmentos de Tamanho Variável</td>
+                <td class="p-3">Externa</td>
+                <td class="p-3">Alinhada com a estrutura lógica do programa e proteção de código.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 6: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">6. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Diferencie <em>Fragmentação Interna</em> de <em>Fragmentação Externa</em>. Qual dessas fragmentações é eliminada com a adoção do mecanismo de Paginação?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Qual é a função do registrador TLB (Translation Lookaside Buffer) na MMU durante o processo de tradução de endereços paginados?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

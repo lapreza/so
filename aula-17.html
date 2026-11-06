@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 17: Estudo Comparativo e Tendências de Mercado | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 17 • 11/12/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Estudo Comparativo e Tendências do Mercado: Linux vs. Windows Server</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Análise técnico-comparativa profunda entre os ecossistemas Linux e Windows Server, modelos de licenciamento, desempenho em servidores corporativos e o futuro dos Sistemas Operacionais.
+        </p>
+      </header>
+
+      <!-- Seção 1: O Panorama Tecnológico -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Panorama Atual dos SOs para Servidores</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          No cenário corporativo moderno de Tecnologia da Informação, duas plataformas dominam a infraestrutura de servidores corporativos, data centers e ambientes em nuvem: as distribuições <strong>GNU/Linux</strong> (Red Hat Enterprise Linux, Ubuntu Server, Debian) e o <strong>Windows Server</strong>.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Enquanto o Windows Server consolida a sua presença através da integração nativa com domínios de diretório corporativo (Active Directory) e ferramentas de gestão unificada, o Linux estabeleceu-se como a espinha dorsal de sistemas web, supercomputadores, contêineres e na vasta maioria da infraestrutura de nuvem pública (AWS, Azure, Google Cloud).
+        </p>
+      </section>
+
+      <!-- Seção 2: Matriz Comparativa Técnica -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Matriz Comparativa de Arquitetura e Gestão</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Dimensão Técnica</th>
+                <th class="p-3">GNU/Linux (Server)</th>
+                <th class="p-3">Windows Server</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Modelo de Código e Licença</td>
+                <td class="p-3">Código Aberto (Open Source / GPL). Licenciamento gratuito ou baseado em subscrição de suporte (ex: RHEL).</td>
+                <td class="p-3">Código Fechado (Proprietário). Licenciamento baseado no número de núcleos físicos de CPU e licenças de acesso (CALs).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Interface e Gestão do Sistema</td>
+                <td class="p-3">Foco total em linha de comandos (CLI / SSH). Gestão baseada em arquivos de texto plano de configuração.</td>
+                <td class="p-3">Interface gráfica avançada (GUI / Server Manager), PowerShell e portal centralizado Windows Admin Center.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Consumo de Recursos (Footprint)</td>
+                <td class="p-3">Extremamente leve e modular. Possibilidade de rodar instâncias mínimas (sem GUI) com uso reduzido de RAM/CPU.</td>
+                <td class="p-3">Exige maior capacidade física de memória RAM e armazenamento em disco devido aos subsistemas gráficos e serviços.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Serviço de Diretório Integrado</td>
+                <td class="p-3">Provedores abertos baseados em LDAP, Samba 4 e FreeIPA.</td>
+                <td class="p-3">Active Directory Domain Services (AD DS) — padrão de mercado para gestão de identidades e políticas em redes.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Virtualização e Contêineres</td>
+                <td class="p-3">Suporte nativo de alto desempenho via KVM, Docker, LXC e ecossistema Kubernetes.</td>
+                <td class="p-3">Hyper-V integrado, suporte a Windows Containers e integração com WSL (Windows Subsystem for Linux).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 3: Tendências Emergentes de Mercado -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Tendências Futuras dos Sistemas Operacionais</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O papel do Sistema Operacional tradicional evoluiu drasticamente com a virtualização e a computação em nuvem. Destacam-se as seguintes tendências de mercado:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">1. Sistemas Imutáveis (Minimal & Container-Optimized OS):</strong>
+            Sistemas operacionais ultra-minimalistas projetados exclusivamente para executar contêineres (ex: Flatcar Container Linux, Bottlerocket). O sistema de arquivos do SO é somente leitura (*read-only*), eliminando riscos de desconfiguração ou alteração maliciosa.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">2. Unikernels e Serverless Architecture:</strong>
+            Compilação do código da aplicação juntamente com as funções mínimas estritamente necessárias do SO num único espaço de endereçamento sem divisão de kernel/user mode. Inicialização na escala de milissegundos para ambientes sem servidor (*Serverless*).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">3. eBPF (Extended Berkeley Packet Filter) no Kernel Linux:</strong>
+            Tecnologia revolucionária que permite executar programas personalizados com alta segurança dentro do próprio espaço de memória do Kernel do Linux sem a necessidade de alterar o código do núcleo ou carregar módulos LKM, transformando o monitoramento de segurança, desempenho e redes em tempo real.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">4. Convergência Híbrida de Plataformas:</strong>
+            Crescente interoperabilidade entre ecossistemas. A Microsoft adotou nativamente o Linux dentro do Windows via WSL2, além de disponibilizar serviços chave (como SQL Server) compilados para rodar sobre distribuições Linux.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Conclusão da Disciplina -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Conclusão da Disciplina</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Ao longo do semestre, estudamos desde a abstração mais baixa do hardware (gerenciamento de processos, registradores e interrupções) até a organização avançada de memória virtual, sistemas de arquivos e distribuição de recursos em rede.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Compreender a estrutura interna dos Sistemas Operacionais capacita o profissional de **Sistemas de Informação** a projetar arquiteturas de software mais eficientes, diagnosticar problemas críticos de desempenho em produção e tomar decisões estratégicas fundamentadas na escolha de infraestruturas computacionais.
+        </p>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão Final</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Considerando métricas de TCO (Custo Total de Propriedade), estabilidade e flexibilidade, em quais cenários corporativos a escolha do Windows Server se sobressai em relação ao Linux, e vice-versa?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">O que é a tecnologia <em>eBPF (Extended Berkeley Packet Filter)</em> e de que forma ela está redefinindo o monitoramento de desempenho e a segurança diretamente no kernel dos sistemas operacionais modernos?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

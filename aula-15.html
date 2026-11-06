@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 15: Gerenciamento de Pacotes, Discos e Partições | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 15 • 20/11/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Gerenciamento de Pacotes, Discos, Partições e Montagem de Unidades</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo sobre a administração de armazenamento secundário em Linux, tabelas de partição (MBR e GPT), formatação de sistemas de arquivos, gerenciamento de pacotes (<code class="font-mono text-xs">apt</code>) e comandos de disco (<code class="font-mono text-xs">fdisk</code>, <code class="font-mono text-xs">mkfs</code>, <code class="font-mono text-xs">mount</code>).
+        </p>
+      </header>
+
+      <!-- Seção 1: Gerenciamento de Software e Pacotes -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. Gerenciamento de Pacotes e Repositórios</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Diferente do modelo tradicional de instalação por executáveis isolados, os sistemas operacionais modernos utilizam <strong>Gerenciadores de Pacotes</strong>. O gerenciador resolve dependências de software automaticamente, realiza a checagem de assinaturas de segurança e baixa arquivos diretamente de repositórios oficiais.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Em distribuições baseadas em Debian e Ubuntu, o padrão da indústria é a ferramenta <strong>APT (Advanced Package Tool)</strong>:
+        </p>
+
+        <div class="bg-slate-900 text-slate-100 p-4 rounded font-mono text-xs space-y-2 my-4">
+          <p><span class="text-slate-500"># Atualiza o índice local de pacotes disponíveis</span></p>
+          <p class="text-emerald-400">sudo apt update</p>
+          <p><span class="text-slate-500"># Atualiza todos os softwares instalados no sistema</span></p>
+          <p class="text-emerald-400">sudo apt upgrade</p>
+          <p><span class="text-slate-500"># Instala um pacote resolvendo dependências automaticamente</span></p>
+          <p class="text-emerald-400">sudo apt install nginx htop net-tools</p>
+        </div>
+      </section>
+
+      <!-- Seção 2: Estrutura de Discos e Tabela de Partições -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Organização Física e Lógica de Armazenamento</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para que o Sistema Operacional possa armazenar dados num disco rígido (HDD) ou unidade de estado sólido (SSD/NVMe), a unidade física deve passar por três etapas lógicas indispensáveis:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">1. Particionamento:</strong>
+            Divisão do disco em seções lógicas independentes usando padrões de tabela como <strong>MBR (Master Boot Record)</strong> ou o moderno <strong>GPT (GUID Partition Table)</strong>.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">2. Formatação (Criação de Sistema de Arquivos):</strong>
+            Gravação da estrutura de diretórios e tabelas de alocação de blocos na partição (ex: ext4, xfs, ntfs, btrfs).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">3. Montagem (Mounting):</strong>
+            Associação da partição formatada a um diretório na árvore do sistema de arquivos único (<code class="font-mono text-xs">/</code>).
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Comandos de Administração de Discos -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Roteiro Prático no Terminal: fdisk, mkfs e mount</h2>
+
+        <div class="space-y-4 text-sm text-slate-700 my-4">
+          
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">Etapa A: Identificação e Particionamento (<code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">fdisk</code> / <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">lsblk</code>)</h4>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Lista todos os discos e partições conectadas ao sistema</p>
+              <p class="text-emerald-400">lsblk</p>
+              <p># Inicia o utilitário interativo de particionamento no disco /dev/sdb</p>
+              <p class="text-emerald-400">sudo fdisk /dev/sdb</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">Etapa B: Formatação com Sistema de Arquivos ext4 (<code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">mkfs</code>)</h4>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Cria o sistema de arquivos ext4 na partição recém-criada /dev/sdb1</p>
+              <p class="text-emerald-400">sudo mkfs.ext4 /dev/sdb1</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">Etapa C: Montagem e Montagem Persistente (<code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">mount</code> e <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">/etc/fstab</code>)</h4>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Cria o ponto de montagem e conecta a partição</p>
+              <p class="text-emerald-400">sudo mkdir -p /mnt/dados</p>
+              <p class="text-emerald-400">sudo mount /dev/sdb1 /mnt/dados</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Seção 4: O Arquivo /etc/fstab -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Montagem Automática no Boot (/etc/fstab)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O comando <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">mount</code> realiza apenas uma montagem temporária na memória RAM. Ao reiniciar o sistema, a partição é desmontada.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para tornar a montagem permanente, a partição e seu respectivo UUID (Identificador Único Universal obtido com o comando <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">blkid</code>) devem ser cadastrados no arquivo de configuração <strong><code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">/etc/fstab</code></strong> do Linux.
+        </p>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Diferencie a tabela de partição clássica MBR da tabela moderna GPT. Quais são as limitações principais de tamanho de disco e número de partições primárias do MBR?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Explique a importância do arquivo <code class="font-mono text-xs">/etc/fstab</code> e descreva o risco de incluir uma linha com sintaxe incorreta nesse arquivo antes de reiniciar o sistema.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 14: Gerenciamento de E/S, Interrupções e DMA | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 14 • 06/11/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Gerenciamento de Entrada e Saída (E/S), Interrupções, DMA e Buffering</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo da arquitetura do subsistema de E/S, controladores de dispositivos, mecanismos de interrupção de hardware, Acesso Direto à Memória (DMA) e técnicas de otimização de fluxo de dados.
+        </p>
+      </header>
+
+      <!-- Seção 1: O Desafio de E/S -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Papel do Subsistema de Entrada e Saída</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O subsistema de **Entrada e Saída (E/S)** do Sistema Operacional é responsável por mediar a comunicação entre os programas do usuário e os periféricos físicos (teclados, discos SSD/NVMe, placas de rede, monitores).
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O principal desafio técnico reside na <strong>disparidade imensa de velocidades</strong>: enquanto os registradores da CPU operam na escala de nanossegundos, dispositivos de E/S variam de milissegundos (discos) a segundos (digitação do usuário). O SO precisa mascarar essas diferenças e oferecer uma interface padronizada via <em>Device Drivers</em>.
+        </p>
+      </section>
+
+      <!-- Seção 2: Técnicas de Comunicação com Dispositivos -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Técnicas de Operação de E/S</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A evolução do controle de dispositivos deu-se em três etapas fundamentais:
+        </p>
+
+        <div class="space-y-4 text-sm text-slate-700 my-4">
+          
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-1">
+            <h3 class="font-bold text-slate-900">1. E/S Programada (Polling / Polling I/O)</h3>
+            <p class="text-slate-600 leading-relaxed text-justify">
+              A CPU envia um comando ao controlador do dispositivo e permanece em um laço de espera ativo (*busy waiting*) testando continuamente um registrador de status até que a operação seja concluída.
+            </p>
+            <p class="text-xs text-rose-700 font-medium">Desvantagem: Desperdício massivo de ciclos de CPU em espera ativa.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-1">
+            <h3 class="font-bold text-slate-900">2. E/S Dirigida por Interrupções (Interrupt-Driven I/O)</h3>
+            <p class="text-slate-600 leading-relaxed text-justify">
+              A CPU emite o comando de E/S para o controlador e suspende o processo, passando a executar outras tarefas. Quando o dispositivo conclui a transferência física, o controlador dispara um sinal de interrupção elétrica (IRQ) na CPU.
+            </p>
+            <p class="text-xs text-emerald-700 font-medium">Vantagem: Elimina o busy waiting e permite a multiprogramação real.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-1">
+            <h3 class="font-bold text-slate-900">3. Acesso Direto à Memória (DMA - Direct Memory Access)</h3>
+            <p class="text-slate-600 leading-relaxed text-justify">
+              Utiliza um controlador especial de hardware (DMA Controller) capaz de transferir grandes blocos de dados diretamente entre o periférico e a memória RAM sem passar a cada byte pela CPU. A CPU só é interrompida uma única vez ao término da transferência de todo o bloco.
+            </p>
+            <p class="text-xs text-emerald-700 font-medium">Vantagem: Libera a CPU do trabalho pesado de movimentação byte a byte em discos e rede.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Seção 3: Buffering, Caching e Spooling -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Técnicas de Otimização de Desempenho em E/S</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para suavizar picos de transferência e incompatibilidades de tamanho de bloco, o kernel utiliza três abstrações essenciais:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Buffering (Buffers)</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Área de memória usada para armazenar dados temporariamente enquanto eles são transferidos entre dois dispositivos ou entre uma aplicação e um dispositivo. Lida com variações de velocidade e tamanho de bloco.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Caching (Cache)</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Região de memória rápida que mantém cópias de dados do dispositivo de E/S de acesso lento. Diferente do buffer, a cache contém dados reutilizáveis por múltiplas requisições de leitura.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Spooling</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              (Simultaneous Peripheral Operations On-Line): Fila mantida em disco para interceptar e organizar jobs de dispositivos não compartilháveis de acesso exclusivo (ex: impressoras).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Camadas do Subsistema de E/S -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Arquitetura em Camadas do Subsistema de E/S</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Camada de Software/Hardware</th>
+                <th class="p-3">Função Principal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Software em Espaço de Usuário</td>
+                <td class="p-3">Invocação de chamadas de biblioteca (ex: <code class="font-mono text-xs">read()</code>, <code class="font-mono text-xs">write()</code>) e envio de dados formatados.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Software de E/S Independente de Dispositivo</td>
+                <td class="p-3">Interface uniforme, nomeação de arquivos, segurança/permissões e gerenciamento do tamanho de bloco.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Drivers de Dispositivos (Device Drivers)</td>
+                <td class="p-3">Código específico que traduz solicitações abstratas em registradores e comandos do fabricante do dispositivo.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Tratadores de Interrupção (Interrupt Handlers)</td>
+                <td class="p-3">Código executado imediatamente ao receber o sinal de interrupção para salvar estado e acordar processos.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Controladores e Hardware Físico</td>
+                <td class="p-3">Placa eletrônica (chipset) que controla o motor, sinais elétricos ou leitores ópticos do dispositivo físico.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Por que a técnica de <em>Polling (E/S Programada)</em> é altamente ineficiente para dispositivos de velocidade imprevisível, como mouses ou teclados, mas pode ser aceitável em sistemas embarcados de tempo real dedicados?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Explique como o mecanismo de <em>DMA (Direct Memory Access)</em> reduz a sobretaxa (*overhead*) de processamento da CPU durante a leitura de um arquivo grande armazenado num SSD.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

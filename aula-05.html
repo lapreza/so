@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 05: Conceito, Estados e PCB de Processos | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 05 • 04/09/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Conceito, Estados e Bloco de Controle de Processos (PCB)</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo sobre a abstração de processos no Sistema Operacional, ciclo de vida e ciclo de transição de estados, e a estrutura de dados PCB utilizada pelo núcleo.
+        </p>
+      </header>
+
+      <!-- Seção 1: O que é um Processo -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Conceito de Processo</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Um <strong>Processo</strong> é definido informalmente como um <em>programa em execução</em>. Enquanto um programa é uma entidade passiva armazenada em disco (um arquivo executável com instruções), o processo é uma entidade ativa que possui um contador de programa (PC), registradores, alocação de memória e recursos do sistema atribuídos.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A estrutura de memória de um processo em execução é tipicamente dividida nas seguintes seções:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Seção de Texto (Code) & Dados</h4>
+            <p class="text-slate-600">
+              Contém o código executável do programa e as variáveis globais/estáticas inicializadas e não inicializadas.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Heap & Stack (Pilha)</h4>
+            <p class="text-slate-600">
+              O <strong>Heap</strong> é a memória alocada dinamicamente durante a execução (<code class="font-mono text-xs">malloc</code>/<code class="font-mono text-xs">new</code>). A <strong>Stack</strong> armazena dados temporários de funções (parâmetros, variáveis locais e endereços de retorno).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 2: O Ciclo de Vida e Estados de um Processo -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Diagrama de Estados de um Processo</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          À medida que um processo é executado, seu estado altera-se continuamente. O modelo clássico de 5 estados do Sistema Operacional inclui:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">1. Novo (New):</strong>
+            O processo está sendo criado pelo Sistema Operacional (alocação inicial de memória e estruturas).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">2. Pronto (Ready):</strong>
+            O processo está carregado na memória RAM e aguarda ser alocado a um processador (CPU) pelo escalonador.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">3. Executando (Running):</strong>
+            As instruções do processo estão sendo executadas pela CPU no momento.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">4. Esperando / Bloqueado (Waiting / Blocked):</strong>
+            O processo aguarda a ocorrência de um evento externo (como o término de uma operação de E/S ou recepção de um sinal).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">5. Terminado (Terminated):</strong>
+            O processo concluiu sua execução ou foi encerrado abruptamente, e suas estruturas de recursos estão sendo liberadas.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Bloco de Controle de Processos (PCB) -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Bloco de Controle de Processo (PCB - Process Control Block)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Cada processo é representado no Sistema Operacional por um **PCB (Process Control Block)**, também chamado de descritor de processo. No Linux, o PCB é representado pela estrutura <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">struct task_struct</code>.
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Atributo do PCB</th>
+                <th class="p-3">Descrição / Função</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Identificador de Processo (PID)</td>
+                <td class="p-3">Número inteiro único atribuído pelo sistema para identificar o processo.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Estado do Processo</td>
+                <td class="p-3">Indica se o processo está em Pronto, Executando, Esperando, etc.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Contador de Programa (PC)</td>
+                <td class="p-3">Endereço da próxima instrução de código a ser executada pela CPU.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Registradores da CPU</td>
+                <td class="p-3">Salva o conteúdo dos registradores de uso geral quando ocorre a troca de contexto.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Informações de Escalonamento</td>
+                <td class="p-3">Prioridade do processo, ponteiros para filas de escalonamento e métricas de execução.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Gerenciamento de Memória</td>
+                <td class="p-3">Tabelas de páginas, limites de memória alocada e espaço de endereçamento.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Contabilidade e Arquivos Abertos</td>
+                <td class="p-3">Lista de descritores de arquivos abertos (FDs) e tempo de CPU consumido.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 4: Troca de Contexto -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Troca de Contexto (Context Switch)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Alternar a CPU de um processo para outro exige salvar o estado do processo atual no seu PCB correspondente e carregar o estado salvo do novo processo a ser executado. Esse procedimento é chamado de **Troca de Contexto (Context Switch)**.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A troca de contexto é um *overhead* puro (tempo perdido no qual a CPU não executa trabalho útil para as aplicações), devendo ser otimizada ao máximo pelo núcleo do SO e auxiliada por instruções registradoras do próprio hardware.
+        </p>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">O que acontece durante uma troca de contexto (Context Switch) e por que ela é considerada um overhead para o Sistema Operacional?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Explique a diferença entre a transição de um processo do estado <em>Executando</em> para <em>Pronto</em> e a transição do estado <em>Executando</em> para <em>Esperando (Bloqueado)</em>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

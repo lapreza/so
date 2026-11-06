@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 10: Impasses (Deadlocks) | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 10 • 09/10/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Impasses (Deadlocks): Conceitos, Prevenção, Deteção e Recuperação</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo do problema do bloqueio permanente de processos, as quatro condições necessárias para a ocorrência de deadlocks e as estratégias do Sistema Operacional para lidar com o problema.
+        </p>
+      </header>
+
+      <!-- Seção 1: O que é um Deadlock -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Conceito de Impasse (Deadlock)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Um <strong>Impasse (Deadlock)</strong> ocorre quando um conjunto de processos está permanentemente bloqueado porque cada processo retém um recurso e aguarda por outro recurso que está sendo mantido por outro processo do mesmo conjunto.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Nenhum dos processos envolvidos consegue prosseguir com a execução, libertar os seus recursos ou ser interrompido sem intervenção do Sistema Operacional.
+        </p>
+      </section>
+
+      <!-- Seção 2: As Quatro Condições de Coffman -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. As Quatro Condições Necessárias (Coffman)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para que um impasse ocorra em um sistema computacional, **todas as quatro condições** a seguir devem ser satisfeitas simultaneamente:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">1. Exclusão Mútua (Mutual Exclusion):</strong>
+            Pelo menos um recurso deve ser mantido num modo não compartilhável (apenas um processo pode utilizar o recurso de cada vez).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">2. Posse e Espera (Hold and Wait):</strong>
+            Um processo deve estar a reter pelo menos um recurso e, simultaneamente, aguardar a alocação de novos recursos retidos por outros processos.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">3. Não Preempção (No Preemption):</strong>
+            Os recursos não podem sofrer preempção forçada; um recurso só pode ser liberado voluntariamente pelo processo que o retém.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">4. Espera Circular (Circular Wait):</strong>
+            Existe um conjunto fechado de processos $\{P_0, P_1, ..., P_n\}$ de modo que $P_0$ espera por um recurso mantido por $P_1$, $P_1$ por $P_2$, e $P_n$ por $P_0$.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Estratégias de Tratamento -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Estratégias de Tratamento de Deadlocks</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Os Sistemas Operacionais adotam diferentes abordagens para lidar com impasses:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6 my-6">
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">Prevenção e Anulação (Avoidance)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A <strong>Prevenção</strong> garante estruturalmente que pelo menos uma das 4 condições de Coffman não ocorra. A <strong>Anulação (Algoritmo do Banqueiro de Dijkstra)</strong> analisa dinamicamente cada pedido de recurso para manter o sistema sempre num <em>Estado Seguro (Safe State)</em>.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">Deteção e Recuperação (Algoritmo do Ostracismo)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              O SO permite a ocorrência do deadlock, mas executa periodicamente um algoritmo de verificação em Grafos de Alocação de Recursos. Para recuperar o sistema, cancelam-se processos ou realiza-se a preempção forçada de recursos. Sistemas como o Linux utilizam a <em>Algoritmo do Ostracismo (Ostrich Algorithm)</em>, ignorando deadlocks raros pelo alto custo de prevenção.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Matriz de Abordagens -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Comparativo de Métodos de Tratameto</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Abordagem</th>
+                <th class="p-3">Mecanismo</th>
+                <th class="p-3">Vantagens</th>
+                <th class="p-3">Desvantagens</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Prevenção</td>
+                <td class="p-3">Invalida uma das 4 condições necessárias.</td>
+                <td class="p-3">Zero risco de impasse.</td>
+                <td class="p-3">Subutilização de recursos e perda de desempenho.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Anulação (Banqueiro)</td>
+                <td class="p-3">Avalia o estado seguro a cada solicitação.</td>
+                <td class="p-3">Boa utilização de recursos sem impasses.</td>
+                <td class="p-3">Exige conhecimento prévio dos recursos máximos requeridos.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Deteção e Recuperação</td>
+                <td class="p-3">Detecta ciclos e encerra processos.</td>
+                <td class="p-3">Sem restrições na alocação inicial de recursos.</td>
+                <td class="p-3">Perda do trabalho realizado pelos processos abortados.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Quais são as quatro condições necessárias para que ocorra um Impasse (Deadlock)? Explique por que a eliminação de apenas uma delas é suficiente para prevenir o impasse.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Por que a maioria dos sistemas operacionais genéricos (como Linux e Windows) prefere utilizar o <em>Algoritmo do Ostracismo</em> em vez de implementar um algoritmo complexo de prevenção como o Algoritmo do Banqueiro?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 04: Ambiente CLI e Chamadas de Sistema | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 04 • 28/08/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Ambiente CLI (Linux/Windows) e Chamadas de Sistema (System Calls)</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo da interface de linha de comandos (CLI), a mecânica de transição do Modo Usuário para o Modo Kernel via chamadas de sistema e a utilização de APIs padrão (POSIX e Win32/Win64).
+        </p>
+      </header>
+
+      <!-- Seção 1: O Ambiente CLI -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. A Interface de Linha de Comandos (CLI)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A <strong>CLI (Command Line Interface)</strong>, ou intérprete de comandos (Shell), é a interface textual que permite ao usuário interagir diretamente com o Sistema Operacional através de comandos digitados. Diferente da GUI (Interface Gráfica), a CLI consome poucos recursos de memória e CPU, além de permitir a automação completa de tarefas por meio de *scripts*.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          No Linux, o shell padrão mais comum é o <strong>Bash (Bourne Again Shell)</strong>, enquanto no ecossistema Windows destacam-se o <strong>Prompt de Comando (cmd.exe)</strong> e o <strong>PowerShell</strong>.
+        </p>
+      </section>
+
+      <!-- Seção 2: O Conceito de Chamadas de Sistema -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Chamadas de Sistema (System Calls)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          As <strong>System Calls (Syscalls)</strong> constituem a interface programática formal que os programas em execução no <em>Modo Usuário</em> utilizam para solicitar serviços privilegiados ao <em>Modo Kernel</em> do Sistema Operacional (como ler um ficheiro no disco, alocar memória física ou enviar dados pela rede).
+        </p>
+
+        <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-3 my-6">
+          <h3 class="text-lg font-bold text-slate-900">Mecanismo de Transição de Modo (Trap/Interrupt)</h3>
+          <p class="text-sm text-slate-700 leading-relaxed text-justify">
+            Quando um processo necessita de um serviço do kernel:
+          </p>
+          <ol class="list-decimal pl-5 space-y-2 text-xs text-slate-700">
+            <li>O programa carrega os parâmetros da chamada de sistema nos registradores do processador.</li>
+            <li>Executa uma instrução especial de interrupção por software (ex: <code class="bg-slate-200 px-1 py-0.5 rounded text-slate-900 font-mono">sysenter</code>, <code class="bg-slate-200 px-1 py-0.5 rounded text-slate-900 font-mono">syscall</code> ou <code class="bg-slate-200 px-1 py-0.5 rounded text-slate-900 font-mono">INT 0x80</code>).</li>
+            <li>A CPU altera o modo de execução de <strong>Modo Usuário (User Mode)</strong> para <strong>Modo Kernel (Kernel Mode)</strong>.</li>
+            <li>O Kernel busca a chamada na tabela de interrupções, valida os parâmetros e executa o serviço de forma segura.</li>
+            <li>A CPU retorna o resultado e altera o estado de volta para o Modo Usuário.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Seção 3: Categorias de System Calls -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Categorização das Chamadas de Sistema</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          As System Calls são agrupadas de acordo com o subsistema do núcleo que é invocado:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Categoria</th>
+                <th class="p-3">Função Principal</th>
+                <th class="p-3">Exemplo POSIX (Linux/Unix)</th>
+                <th class="p-3">Exemplo Win32 (Windows)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Controle de Processos</td>
+                <td class="p-3">Criar, finalizar ou aguardar a execução de processos.</td>
+                <td class="p-3 font-mono text-xs">fork(), exec(), exit()</td>
+                <td class="p-3 font-mono text-xs">CreateProcess(), ExitProcess()</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Manipulação de Arquivos</td>
+                <td class="p-3">Abrir, ler, escrever e fechar arquivos ou diretórios.</td>
+                <td class="p-3 font-mono text-xs">open(), read(), write(), close()</td>
+                <td class="p-3 font-mono text-xs">CreateFile(), ReadFile(), WriteFile()</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Gerenciamento de Dispositivos</td>
+                <td class="p-3">Solicitar acesso exclusivo, ler/escrever em periféricos.</td>
+                <td class="p-3 font-mono text-xs">ioctl(), read(), write()</td>
+                <td class="p-3 font-mono text-xs">DeviceIoControl()</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Manutenção de Informações</td>
+                <td class="p-3">Obter data, hora, dados do sistema e estatísticas de uso.</td>
+                <td class="p-3 font-mono text-xs">getpid(), time(), alarm()</td>
+                <td class="p-3 font-mono text-xs">GetSystemTime(), GetCurrentProcessId()</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Comunicação e Redes</td>
+                <td class="p-3">Criar conexões de rede, enviar/receber dados via sockets.</td>
+                <td class="p-3 font-mono text-xs">socket(), bind(), connect()</td>
+                <td class="p-3 font-mono text-xs">WSAStartup(), socket()</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 4: APIs vs. System Calls -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. A Relação entre APIs e System Calls</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Na prática, a maioria dos programadores não invoca System Calls diretamente. Em vez disso, utilizam **APIs (Application Programming Interfaces)** como a **libc (POSIX)** em C/C++ ou as bibliotecas padrão do Python, Java e C#.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A função <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">printf()</code> da linguagem C, por exemplo, não é uma chamada de sistema. Ela é uma função de biblioteca que formata o texto na RAM e, internamente, invoca a System Call <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono text-sm">write()</code> do sistema operacional para enviar os caracteres à tela.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Portabilidade via API</h4>
+            <p class="text-slate-600">
+              Ao usar APIs padrão (ex: POSIX), o mesmo código-fonte C pode ser compilado no Linux, macOS ou BSD sem alterações, pois a biblioteca cuida de traduzir a chamada para a System Call específica de cada kernel.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Inspeção de Chamadas (strace / truss)</h4>
+            <p class="text-slate-600">
+              No Linux, é possível rastrear todas as System Calls executadas por um programa em tempo real utilizando o utilitário de linha de comando <code class="bg-slate-200 px-1 py-0.5 rounded font-mono text-xs">strace &lt;nome_do_programa&gt;</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Por que as aplicações não podem acessar o hardware (como gravar diretamente um setor de um disco rígido) sem realizar uma chamada de sistema (System Call)?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Diferencie a função de biblioteca <code class="font-mono text-xs">fopen()</code> da linguagem C da chamada de sistema <code class="font-mono text-xs">open()</code> do kernel Linux. Qual é o papel da API POSIX nessa relação?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

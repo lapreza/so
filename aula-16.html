@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 16: Sistemas Operacionais Distribuídos | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 16 • 27/11/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Sistemas Operacionais Distribuídos: Princípios, Transparência e Arquiteturas</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo da integração de múltiplos computadores autônomos em um sistema único e coeso, dimensões de transparência, modelos de middleware e sistemas de arquivos distribuídos.
+        </p>
+      </header>
+
+      <!-- Seção 1: O Conceito de Sistema Distribuído -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O que é um Sistema Operacional Distribuído?</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Um <strong>Sistema Distribuído</strong> é uma coleção de computadores independentes interconectados por uma rede que se apresenta aos seus usuários como um <em>único sistema computacional coerente e integrado</em> (Coulouris et al.; Tanenbaum).
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Enquanto num Sistema Operacional de Rede (NOS) o usuário precisa ter consciência explícita de quais máquinas está acessando (ex: conectando via SSH ou FTP), num **Sistema Operacional Distribuído (DOS)** a gestão de recursos (CPU, memória e arquivos) é realizada pelo núcleo de forma totalmente transparente e global.
+        </p>
+      </section>
+
+      <!-- Seção 2: As Dimensões da Transparência -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Requisitos e Dimensões de Transparência</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O objetivo central de um SO Distribuído é ocultar a natureza distribuída da sua infraestrutura física. A literatura estabelece as seguintes formas de transparência:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Transparência de Localização:</strong>
+            Os usuários não conseguem identificar onde os recursos físicos (arquivos, processos ou hardware) estão fisicamente armazenados.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Transparência de Acesso:</strong>
+            Recursos locais e remotos são acessados através exatamente dos mesmos comandos e interfaces de programação (APIs).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Transparência de Migração e Mobilidade:</strong>
+            Recursos podem ser movidos livremente entre nós físicos da rede sem alterar a forma como são referenciados pelas aplicações.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Transparência de Replicação:</strong>
+            O sistema pode manter múltiplas cópias redundantes de arquivos ou dados para aumentar a disponibilidade sem que o usuário saiba qual cópia está acessando.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Transparência a Falhas (Fault Tolerance):</strong>
+            Módulos de software e aplicações continuam a executar sem interrupção mesmo se um nó de hardware na rede falhar.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Arquiteturas de Sistemas Distribuídos -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Modelos de Arquitetura e Middleware</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A organização de sistemas distribuídos modernos divide-se em três modelos principais:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Cliente-Servidor (Client-Server)</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Processos clientes enviam requisições de serviço para processos servidores centralizados ou distribuídos que processam e retornam o resultado.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Ponto a Ponto (Peer-to-Peer - P2P)</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Todos os nós da rede possuem capacidades e responsabilidades idênticas, atuando simultaneamente como clientes e servidores de dados.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Arquitetura baseada em Middleware</h4>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Camada de software colocada sobre sistemas operacionais heterogêneos para fornecer abstração de RPC (Remote Procedure Call) e mensagens.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Sistemas de Arquivos Distribuídos (DFS) -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Sistemas de Arquivos Distribuídos (DFS)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Um **DFS (Distributed File System)** permite que clientes acessem arquivos armazenados em servidores remotos exatamente da mesma forma que acessam arquivos em seus discos locais.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Exemplos clássicos e modernos incluem o <strong>NFS (Network File System)</strong> do ecossistema Unix/Linux, o protocolo <strong>SMB/CIFS</strong> para ambientes Windows, e o <strong>HDFS (Hadoop Distributed File System)</strong> projetado para alta vazão no processamento de Big Data.
+        </p>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Diferencie um <em>Sistema Operacional de Rede (NOS)</em> de um <em>Sistema Operacional Distribuído (DOS)</em> quanto à visibilidade das máquinas remotas para o usuário.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Explique por que a <em>Transparência de Acesso</em> e a <em>Transparência de Localização</em> são consideradas os dois pilares fundamentais de um Sistema de Arquivos Distribuído (DFS) como o NFS.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

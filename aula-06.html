@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 06: Threads e Programação Concorrente | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 06 • 11/09/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Threads, Concorrência e Programação Concorrente</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo do conceito de Threads (processos leves), diferenças entre concorrência e paralelismo, modelos de implementação de threads e desafios na programação concorrente.
+        </p>
+      </header>
+
+      <!-- Seção 1: O que é uma Thread -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Conceito de Thread (Processo Leve)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Uma <strong>Thread</strong> (ou linha de execução) é a menor unidade de código que pode ser gerenciada e agendada pelo Sistema Operacional. Enquanto um processo tradicional encapsula o espaço de endereçamento de memória e os recursos do sistema, uma thread representa um fluxo de execução dentro desse processo.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Em um processo <em>multithreaded</em>, múltiplas threads compartilham o mesmo código, a mesma seção de dados e os recursos do sistema (como arquivos abertos), mas cada thread possui seu próprio <strong>Contador de Programa (PC)</strong>, conjunto de <strong>Registradores</strong> e **Pilha de Execução (Stack)**.
+        </p>
+      </section>
+
+      <!-- Seção 2: Comparativo Processos vs Threads -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Diferenças entre Processos e Threads</h2>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Característica</th>
+                <th class="p-3">Processo</th>
+                <th class="p-3">Thread</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Espaço de Memória</td>
+                <td class="p-3">Isolado e protegido (cada processo possui seu próprio espaço virtual).</td>
+                <td class="p-3">Compartilhado entre todas as threads do mesmo processo.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Custo de Criação e Troca</td>
+                <td class="p-3">Elevado (exige alocação de tabelas de páginas e estruturas pesadas).</td>
+                <td class="p-3">Baixo (troca de contexto mais rápida e leve).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Comunicação (IPC)</td>
+                <td class="p-3">Requer mecanismos formais (pipes, sockets, memória compartilhada).</td>
+                <td class="p-3">Direta via variáveis globais e ponteiros na memória compartilhada.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Impacto em Caso de Falha</td>
+                <td class="p-3">Se um processo falha, os outros processos não são afetados.</td>
+                <td class="p-3">Se uma thread causa uma falha fatal (ex: *segmentation fault*), todo o processo é encerrado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 3: Concorrência vs Paralelismo -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Concorrência vs. Paralelismo</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Embora frequentemente utilizados como sinônimos, **concorrência** e **paralelismo** são conceitos distintos em arquitetura de sistemas operacionais:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6 my-6">
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Concorrência</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Trata da capacidade de gerenciar e estruturar múltiplas tarefas que fazem progresso em intervalos de tempo sobrepostos. Em um sistema com apenas **um único núcleo de CPU**, a concorrência é obtida alternando rapidamente a execução das tarefas (*interleaving* ou fatia de tempo).
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Paralelismo</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Trata da capacidade de executar fisicamente duas ou mais instruções ao **mesmo tempo**. O paralelismo requer obrigatoriamente um hardware multicore (múltiplos núcleos de processamento ou múltiplos processadores físicos).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Modelos de Implementação de Threads -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Modelos de Implementação de Threads</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O mapeamento entre as threads criadas no nível da aplicação (User Threads) e as threads gerenciadas pelo núcleo do Sistema Operacional (Kernel Threads) pode seguir três modelos clássicos:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Modelo N:1 (Muitos para Um / User-Level Threads)</strong>
+            Múltiplas threads de usuário são mapeadas para uma única thread de kernel. O gerenciamento é feito totalmente por uma biblioteca em espaço de usuário sem suporte direto do SO. <em>Desvantagem:</em> Se uma thread bloquear para E/S, todo o processo bloqueia.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Modelo 1:1 (Um para Um / Kernel-Level Threads)</strong>
+            Cada thread de usuário corresponde diretamente a uma thread de kernel. É o modelo padrão adotado pelos sistemas operacionais modernos (Linux, Windows, macOS). Permite uso real de múltiplos núcleos de CPU.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Modelo M:N (Muitos para Muitos / Modelo Híbrido)</strong>
+            Múltiplas threads de usuário são multiplexadas para um número igual ou menor de threads de kernel, combinando o baixo custo das user threads com o paralelismo das kernel threads.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Explique por que a comunicação entre duas threads do mesmo processo é significativamente mais rápida do que a comunicação entre dois processos distintos no mesmo Sistema Operacional.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Diferencie concorrência de paralelismo. É possível ter concorrência em um sistema com um único processador (*single-core*)? Justifique sua resposta.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

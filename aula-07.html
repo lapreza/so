@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 07: APS - Processos e Threads | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 07 • 18/09/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">APS: Atividade Prática Supervisionada — Processos e Threads</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Laboratório prático de consolidação: análise comparativa de desempenho, consumo de memória e concorrência entre abordagens multiprocesso e multithread.
+        </p>
+      </header>
+
+      <!-- Seção 1: Objetivos da Atividade -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. Objetivos do Laboratório Prático</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Esta Atividade Prática Supervisionada (APS) tem como propósito consolidar os conceitos teóricos estudados nas Aulas 05 e 06. O estudante deverá analisar o comportamento de programas ao lidarem com múltiplas tarefas intensivas de CPU e de Entrada/Saída (E/S).
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Análise de Desempenho</h4>
+            <p class="text-slate-600">
+              Mensauração do tempo total de execução (*real time* e *user time*) de um algoritmo computacionalmente pesado ao utilizar execução sequencial, múltiplos processos e múltiplas threads.
+            </p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Inspeção de Recursos</h4>
+            <p class="text-slate-600">
+              Monitoramento direto no Sistema Operacional (via <code class="font-mono text-xs">top</code>, <code class="font-mono text-xs">htop</code> ou Gerenciador de Tarefas) da taxa de ocupação dos núcleos da CPU e consumo de memória RAM.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 2: Roteiro de Experimentação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Roteiro Prático de Experimentação</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Siga o passo a passo descrito abaixo para coletar os dados necessários para o seu relatório técnico:
+        </p>
+
+        <div class="space-y-4 text-sm text-slate-700 my-4">
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <strong class="text-slate-900 block font-medium mb-1">Etapa A: Inspeção do Ambiente de Execução</strong>
+            <p class="text-slate-600 mb-2">
+              Abra o terminal (Linux/macOS) ou o PowerShell (Windows) e identifique as especificações do hardware do seu sistema:
+            </p>
+            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-600 font-mono">
+              <li>Linux: lscpu | grep "CPU(s):"</li>
+              <li>Windows: Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <strong class="text-slate-900 block font-medium mb-1">Etapa B: Análise de Criação de Processos (fork vs thread)</strong>
+            <p class="text-slate-600 leading-relaxed">
+              Execute os programas de teste disponibilizados em linguagem C/Python para medir o tempo médio de criação de 10.000 processos filhos via chamada de sistema <code class="font-mono text-xs">fork()</code> versus a criação de 10.000 threads via biblioteca POSIX <code class="font-mono text-xs">pthread</code>.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <strong class="text-slate-900 block font-medium mb-1">Etapa C: Condição de Corrida (Race Condition)</strong>
+            <p class="text-slate-600 leading-relaxed">
+              Execute o código de incremento de variável global por 4 threads concorrentes sem mecanismos de sincronização. Observe o resultado final da variável e explique o comportamento inconsistente encontrado.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Tabela de Coleta de Dados -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Tabela para Registro dos Resultados Experimentos</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Preencha os valores obtidos durante o teste na tabela comparativa abaixo para inclusão no seu relatório final:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Abordagem de Execução</th>
+                <th class="p-3">Tempo Real (s)</th>
+                <th class="p-3">Uso Máximo de RAM (MB)</th>
+                <th class="p-3">Uso de CPU (% por núcleo)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">1. Execução Sequencial (1 Thread)</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">2. Multiprocesso (N Processos)</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">3. Multithread (N Threads)</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+                <td class="p-3 text-slate-500 font-mono text-xs">[ Preencher ]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 4: Relatório de Entrega -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Questões de Análise do Relatório Técnico</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Com base nos dados coletados na Etapa B, por que a criação de threads apresentou uma latência menor em comparação com a criação de processos filhos via <code class="font-mono text-xs">fork()</code>?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">O que ocorreu na Etapa C ao tentar modificar uma variável global compartilhada por múltiplas threads simultaneamente sem proteção? Qual conceito teórico de sistemas operacionais justifica essa anomalia?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

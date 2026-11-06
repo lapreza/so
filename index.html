@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistemas Operacionais - Sistemas de Informação | Prof. Rafael Vainisckas Lapreza</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    h1, h2, h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-5xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6 mb-6">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <h1 class="text-2xl font-semibold text-slate-100 mt-1">Sistemas Operacionais</h1>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <p class="text-sm text-slate-400 max-w-3xl leading-relaxed">
+        Plataforma acadêmica de acompanhamento das aulas, materiais teóricos e atividades práticas da disciplina de Sistemas Operacionais.
+      </p>
+    </div>
+  </header>
+
+  <!-- Conteúdo Centralizado - Cronograma de Aulas -->
+  <main class="max-w-5xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <div class="bg-white p-8 rounded-lg border border-slate-200 shadow-sm space-y-8">
+      <header class="border-b border-slate-200 pb-4">
+        <h2 class="text-xl font-bold text-slate-900">Plano de Aulas e Unidades Acadêmicas</h2>
+        <p class="text-xs text-slate-500 mt-1">Selecione a aula desejada para acessar o conteúdo didático e os roteiros de atividades.</p>
+      </header>
+
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+
+        <!-- Aula 1 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 01 • 07/08/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Introdução aos Sistemas Operacionais</h3>
+            <p class="text-xs text-slate-600">Apresentação da disciplina e visão geral dos conceitos fundamentais de SO.</p>
+          </div>
+          <a href="aula-01.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 01 →
+          </a>
+        </div>
+
+        <!-- Aula 2 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 02 • 14/08/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Histórico, Evolução e Tipos de SO</h3>
+            <p class="text-xs text-slate-600">Linha do tempo dos SOs, sistemas em lote, multitarefa e distribuição.</p>
+          </div>
+          <a href="aula-02.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 02 →
+          </a>
+        </div>
+
+        <!-- Aula 3 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 03 • 21/08/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Arquitetura e Estrutura Interna do SO</h3>
+            <p class="text-xs text-slate-600">Sistemas monolíticos, em camadas, microkernel e modelos híbridos.</p>
+          </div>
+          <a href="aula-03.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 03 →
+          </a>
+        </div>
+
+        <!-- Aula 4 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 04 • 28/08/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Ambiente CLI e Chamadas de Sistema</h3>
+            <p class="text-xs text-slate-600">Interface de linha de comando (CLI Linux/Windows) e System Calls.</p>
+          </div>
+          <a href="aula-04.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 04 →
+          </a>
+        </div>
+
+        <!-- Aula 5 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 05 • 04/09/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Conceito e Estados de Processos (PCB)</h3>
+            <p class="text-xs text-slate-600">Estrutura de processos, transições de estado e Bloco de Controle de Processos.</p>
+          </div>
+          <a href="aula-05.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 05 →
+          </a>
+        </div>
+
+        <!-- Aula 6 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 06 • 11/09/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Threads e Programação Concorrente</h3>
+            <p class="text-xs text-slate-600">Conceito de threads, concorrência e execução multithreaded.</p>
+          </div>
+          <a href="aula-06.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 06 →
+          </a>
+        </div>
+
+        <!-- Aula 7 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 07 • 18/09/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">APS: Processos e Threads</h3>
+            <p class="text-xs text-slate-600">Atividade Prática Supervisionada aplicada ao gerenciamento de tarefas.</p>
+          </div>
+          <a href="aula-07.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 07 →
+          </a>
+        </div>
+
+        <!-- Aula 8 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 08 • 25/09/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Algoritmos de Escalonamento de CPU</h3>
+            <p class="text-xs text-slate-600">Algoritmos FIFO, SJF, Round Robin e Prioridades na prática.</p>
+          </div>
+          <a href="aula-08.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 08 →
+          </a>
+        </div>
+
+        <!-- Aula 9 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 09 • 02/10/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Sincronização de Processos</h3>
+            <p class="text-xs text-slate-600">Regiões críticas, semáforos, monitores e exclusão mútua.</p>
+          </div>
+          <a href="aula-09.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 09 →
+          </a>
+        </div>
+
+        <!-- Aula 10 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 10 • 09/10/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Impasses (Deadlocks)</h3>
+            <p class="text-xs text-slate-600">Conceitos de deadlock, prevenção, detecção e estratégias de recuperação.</p>
+          </div>
+          <a href="aula-10.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 10 →
+          </a>
+        </div>
+
+        <!-- Aula 11 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 11 • 16/10/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Gerência de Memória</h3>
+            <p class="text-xs text-slate-600">Alocação contígua, paginação, segmentação e organização de memória.</p>
+          </div>
+          <a href="aula-11.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 11 →
+          </a>
+        </div>
+
+        <!-- Aula 12 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 12 • 23/10/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Memória Virtual e Substituição de Páginas</h3>
+            <p class="text-xs text-slate-600">Conceito de memória virtual, algoritmos de substituição de páginas e thrashing.</p>
+          </div>
+          <a href="aula-12.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 12 →
+          </a>
+        </div>
+
+        <!-- Aula 13 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 13 • 30/10/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Manipulação de Arquivos e Permissões</h3>
+            <p class="text-xs text-slate-600">Gerenciamento de diretórios, usuários e permissões (chmod, chown, useradd).</p>
+          </div>
+          <a href="aula-13.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 13 →
+          </a>
+        </div>
+
+        <!-- Aula 14 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 14 • 06/11/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Gerenciamento de Entrada e Saída (E/S)</h3>
+            <p class="text-xs text-slate-600">Interrupções de hardware, DMA (Direct Memory Access) e buffering.</p>
+          </div>
+          <a href="aula-14.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 14 →
+          </a>
+        </div>
+
+        <!-- Aula 15 (Posteriore à N1) -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 15 • 20/11/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Gerenciamento de Pacotes, Discos e Partições</h3>
+            <p class="text-xs text-slate-600">Montagem de unidades, particionamento e pacotes (apt, fdisk, mount).</p>
+          </div>
+          <a href="aula-15.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 15 →
+          </a>
+        </div>
+
+        <!-- Aula 16 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 16 • 27/11/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Sistemas Operacionais Distribuidos</h3>
+            <p class="text-xs text-slate-600">Princípios de sistemas distribuídos, transparência e arquiteturas de SO.</p>
+          </div>
+          <a href="aula-16.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 16 →
+          </a>
+        </div>
+
+        <!-- Aula 17 -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded flex flex-col justify-between hover:border-slate-400 transition-colors md:col-span-2">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-bold text-slate-500 uppercase">Aula 17 • 11/12/2026</span>
+            </div>
+            <h3 class="font-semibold text-slate-900 text-base mb-2">Estudo Comparativo e Tendências do Mercado</h3>
+            <p class="text-xs text-slate-600">Análise comparativa profunda: Linux vs. Windows Server e futuro dos SOs.</p>
+          </div>
+          <a href="aula-17.html" class="inline-flex items-center text-xs font-semibold text-slate-900 hover:underline mt-4">
+            Acessar Aula 17 →
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

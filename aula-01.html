@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 01: Introdução aos Sistemas Operacionais | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 01 • 07/08/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Introdução aos Sistemas Operacionais</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Conceitos fundamentais, o papel do Sistema Operacional como camada de abstração de hardware e gerenciador de recursos do sistema computacional.
+        </p>
+      </header>
+
+      <!-- Seção 1: Definição -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O que é um Sistema Operacional?</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Um <strong>Sistema Operacional (SO)</strong> é o programa fundamental que atua como intermediário entre o usuário/aplicações e o hardware do computador. Sem o sistema operacional, cada programa aplicativo precisaria conter instruções de baixo nível para manipular diretamente transistores, placas de rede, setores físicos de discos e controladores de memória.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O principal objetivo de um SO é fornecer um ambiente no qual o usuário possa executar programas de maneira conveniente, eficiente e segura, isolando a complexidade física do hardware subjacente.
+        </p>
+      </section>
+
+      <!-- Seção 2: As duas visões do SO -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. As Duas Visões do Sistema Operacional</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Na literatura clássica da Ciência da Computação (como Tanenbaum e Silberschatz), o SO é analisado sob duas perspectivas complementares:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6 my-6">
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Visão de Baixo Para Cima: Máquina Estendida (Abstração)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              O SO transforma o hardware bruto e complexo em uma máquina virtual estendida, oferecendo abstrações amigáveis como <em>arquivos, diretórios, processos e conexões de rede</em> em vez de blocos de disco, registradores de CPU e interrupções técnicas.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Visão de Cima Para Baixo: Gerenciador de Recursos</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              O SO atua como um árbitro central que aloca, gerencia e arbitra o uso dos recursos de hardware (tempo de CPU, espaço em memória RAM, dispositivos de E/S) entre múltiplos programas em execução competitiva.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Principais Funções -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Principais Subsistemas e Funções do SO</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para cumprir seu papel, a estrutura interna do Sistema Operacional é dividida em módulos responsáveis por tarefas específicas:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Gerenciamento de Processos</strong>
+            Criação, agendamento (escalonamento de CPU), sincronização e finalização de processos e threads em execução.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Gerenciamento de Memória Principal</strong>
+            Mapeamento e alocação de espaço na RAM, gerenciamento de memória virtual e proteção de memória entre processos.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Gerenciamento de Sistemas de Arquivos (Storage)</strong>
+            Organização lógica de dados em estruturas de arquivos/diretórios, controle de permissões de acesso e armazenamento secundário.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Gerenciamento de Dispositivos de E/S (Entrada/Saída)</strong>
+            Padronização da comunicação com periféricos por meio de <em>device drivers</em>, tratamento de interrupções e buffering.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Segurança e Proteção</strong>
+            Garantia de que apenas usuários e processos autorizados possam acessar recursos do sistema e isolamento entre aplicações.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Modos de Operação do Processador -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Modos de Operação da CPU: Kernel Mode vs. User Mode</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para impedir que programas de usuário danifiquem o sistema ou acessem dados de outros usuários de forma indevida, a arquitetura do hardware suporta pelo menos dois modos distintos de execução:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Característica</th>
+                <th class="p-3">Modo Usuário (User Mode)</th>
+                <th class="p-3">Modo Núcleo (Kernel / Supervisor Mode)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold">Execução de Instruções</td>
+                <td class="p-3">Restrita (apenas instruções não privilegiadas).</td>
+                <td class="p-3">Total (acesso irrestrito a todas as instruções do hardware).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Acesso à Memória</td>
+                <td class="p-3">Limitado ao espaço de endereçamento atribuído ao processo.</td>
+                <td class="p-3">Acesso direto a toda a memória física do sistema.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Aplicações que Executam</td>
+                <td class="p-3">Navegadores, editores de texto, jogos, bancos de dados.</td>
+                <td class="p-3">O próprio Núcleo (Kernel) do Sistema Operacional e Drivers.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold">Impacto em Caso de Falha</td>
+                <td class="p-3">Apenas a aplicação atual é encerrada (crash do app).</td>
+                <td class="p-3">Falha total do sistema (Tela Azul no Windows / Kernel Panic no Linux).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Por que é necessário existir uma divisão clara de privilégios entre Modo Usuário e Modo Núcleo nos processadores modernos? O que aconteceria se uma aplicação comum pudesse executar instruções em Modo Núcleo?</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Explique com suas palavras a diferença entre a visão do Sistema Operacional como "Máquina Estendida" e sua visão como "Gerenciador de Recursos".</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

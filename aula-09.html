@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 09: Sincronização de Processos e Regiões Críticas | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 09 • 02/10/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Sincronização de Processos, Regiões Críticas, Semáforos e Monitores</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo dos problemas de concorrência, condições de corrida, mecanismos de exclusão mútua e primitivas clássicas de sincronização no Sistema Operacional.
+        </p>
+      </header>
+
+      <!-- Seção 1: O Problema da Sincronização -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Problema da Concorrência e Condição de Corrida</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Quando múltiplos processos ou threads executam concorrentemente e compartilham recursos de memória (como variáveis globais ou arquivos), a ordem imprevista de interrupções da CPU pode levar a inconsistências de dados.
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Uma <strong>Condição de Corrida (Race Condition)</strong> ocorre quando duas ou mais threads acedem e manipulam o mesmo recurso compartilhado simultaneamente, e o resultado final depende estritamente da ordem de execução temporal de cada uma.
+        </p>
+      </section>
+
+      <!-- Seção 2: O Problema da Região Crítica -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. O Problema da Região Crítica</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A trecho de código onde um processo acede e modifica recursos compartilhados é denominado <strong>Região Crítica (Critical Section)</strong>. Para garantir a integridade dos dados, uma solução para o problema da região crítica deve respeitar obrigatoriamente três requisitos:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">1. Exclusão Mútua (Mutual Exclusion):</strong>
+            Se um processo está a executar na sua região crítica, nenhum outro processo pode executar na sua respectiva região crítica para o mesmo recurso.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">2. Progresso (Progress):</strong>
+            Se nenhum processo está na sua região crítica e existem processos querendo entrar, apenas os processos que não estão na sua seção restante podem participar da decisão de quem entra a seguir.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">3. Espera Limitada (Bounded Waiting):</strong>
+            Existe um limite para o número de vezes que outros processos podem entrar nas suas regiões críticas após um processo ter feito o pedido para entrar na sua, evitando a inanição (*starvation*).
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Semáforos e Mutexes -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Primitivas de Sincronização: Mutex e Semáforos</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Para solucionar o problema da região crítica sem recorrer ao bloqueio ativo (*busy waiting*), os Sistemas Operacionais disponibilizam abstrações de software gerenciadas pelo núcleo:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6 my-6">
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">Mutex (Mutual Exclusion Lock)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Variável de bloqueio binário que pode estar em apenas dois estados: <em>Livre (Unlocked)</em> ou <em>Ocupado (Locked)</em>. Apenas a thread que adquiriu o bloqueio (<code class="font-mono text-xs">lock()</code>) tem autorização para liberá-lo (<code class="font-mono text-xs">unlock()</code>).
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h3 class="text-lg font-bold text-slate-900">Semáforos (Dijkstra)</h3>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Variável inteira que, após a inicialização, só pode ser acessada através de duas operações atômicas: <code class="font-mono text-xs">wait()</code> (ou <code class="font-mono text-xs">P()</code>) para decrementar/bloquear e <code class="font-mono text-xs">signal()</code> (ou <code class="font-mono text-xs">V()</code>) para incrementar/liberar. Podem ser <em>Semáforos Binários</em> ou <em>Semáforos de Contagem</em>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Monitores -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Monitores e Estruturas de Alto Nível</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Apesar de eficientes, os semáforos são suscetíveis a erros de programação (como esquecer um <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-xs text-slate-800">signal()</code> ou inverter chamadas, causando *deadlocks*).
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          O <strong>Monitor</strong> é um tipo abstrato de dados (ADT) de alto nível que garante a exclusão mútua automaticamente dentro dos seus procedimentos. Utilizado em linguagens modernas (como Java com a palavra-chave <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-xs text-slate-800">synchronized</code>), apenas um processo/thread pode estar ativo dentro do monitor a qualquer instante.
+        </p>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Explique o conceito de <em>Condição de Corrida (Race Condition)</em> e descreva como o uso de um Mutex evita essa situação em programas multithread.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Qual é a principal diferença de funcionamento entre um <em>Semáforo de Contagem</em> e um <em>Mutex Binário</em>? Em qual cenário prático um semáforo de contagem é indispensável?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>

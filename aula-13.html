@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula 13: Permissões, Arquivos e Usuários | Sistemas de Informação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .content-body h1, .content-body h2, .content-body h3 {
+      font-family: 'Merriweather', serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header Acadêmico -->
+  <header class="bg-slate-900 text-white border-b border-slate-800">
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Sistemas de Informação</span>
+          <p class="text-sm font-medium text-slate-300">Disciplina: Sistemas Operacionais</p>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-xs uppercase tracking-wider text-slate-400 block">Docente Responsável</span>
+          <span class="text-sm font-medium text-slate-200">Prof. Rafael Vainisckas Lapreza</span>
+        </div>
+      </div>
+      <a href="index.html" class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-white transition-colors mt-2">
+        ← Voltar para o Portal de Aulas
+      </a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10 flex-grow w-full">
+    
+    <article class="bg-white p-8 sm:p-12 rounded-lg border border-slate-200 shadow-sm content-body space-y-10">
+      
+      <!-- Cabeçalho do Artigo -->
+      <header class="border-b border-slate-200 pb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Aula 13 • 30/10/2026</span>
+        <h1 class="text-3xl font-bold text-slate-900 mt-2">Manipulação de Arquivos, Permissões e Gerenciamento de Usuários</h1>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Estudo da estrutura de sistemas de arquivos POSIX, modelo de segurança multiusuário, controle de acesso e comandos fundamentais de administração (chmod, chown, useradd).
+        </p>
+      </header>
+
+      <!-- Seção 1: O Modelo de Arquivos e Usuários POSIX -->
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">1. O Modelo Multiusuário e Sistemas de Arquivos</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Em sistemas operacionais da família Unix/Linux, a segurança e a integridade do sistema baseiam-se num modelo rígido de controle de acesso multiusuário. Cada processo em execução herda as credenciais do usuário que o iniciou (UID - User ID) e do seu grupo primário (GID - Group ID).
+        </p>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Além disso, o princípio do Unix estabelece que <em>"tudo é um arquivo"</em>. Dispositivos de hardware, soquetes de rede, diretórios e processos são representados e manipulados através da abstração do sistema de arquivos.
+        </p>
+      </section>
+
+      <!-- Seção 2: Estrutura de Permissões POSIX -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">2. Estrutura de Permissões Padrão (rwx)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Cada arquivo ou diretório possui um conjunto de permissões atribuído a três classes de sujeitos:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-sm my-4">
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Dono (User - u)</h4>
+            <p class="text-slate-600 text-xs">O usuário proprietário do arquivo.</p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Grupo (Group - g)</h4>
+            <p class="text-slate-600 text-xs">Usuários pertencentes ao grupo do arquivo.</p>
+          </div>
+          <div class="p-4 border border-slate-200 rounded bg-slate-50">
+            <h4 class="font-bold text-slate-900 mb-1">Outros (Others - o)</h4>
+            <p class="text-slate-600 text-xs">Todos os demais usuários do sistema.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-200 rounded my-4">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead class="bg-slate-900 text-white font-semibold">
+              <tr>
+                <th class="p-3">Permissão</th>
+                <th class="p-3">Impacto em Arquivos</th>
+                <th class="p-3">Impacto em Diretórios</th>
+                <th class="p-3">Valor Octal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-semibold font-mono text-xs">Leitura (r - read)</td>
+                <td class="p-3">Permite visualizar o conteúdo do arquivo.</td>
+                <td class="p-3">Permite listar os arquivos dentro do diretório (<code class="font-mono text-xs">ls</code>).</td>
+                <td class="p-3 font-mono font-bold">4</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold font-mono text-xs">Escrita (w - write)</td>
+                <td class="p-3">Permite alterar ou sobrescrever o conteúdo.</td>
+                <td class="p-3">Permite criar, renomear ou deletar arquivos dentro dele.</td>
+                <td class="p-3 font-mono font-bold">2</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold font-mono text-xs">Execução (x - execute)</td>
+                <td class="p-3">Permite executar o arquivo como um programa/script.</td>
+                <td class="p-3">Permite acessar/entrar no diretório (<code class="font-mono text-xs">cd</code>).</td>
+                <td class="p-3 font-mono font-bold">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 3: Comandos de Gerenciamento e Prática CLI -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">3. Comandos Fundamentais no Terminal</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          A administração do controle de acesso exige o domínio dos utilitários de linha de comando:
+        </p>
+
+        <div class="space-y-4 text-sm text-slate-700 my-4">
+          
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">1. Alterando Permissões: <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">chmod</code></h4>
+            <p class="text-slate-600 text-xs">
+              Pode ser utilizado no modo notação octal (numérico) ou notação simbólica:
+            </p>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Concede rwx ao dono (7), r-x ao grupo (5) e r-- a outros (4)</p>
+              <p class="text-emerald-400">chmod 754 script.sh</p>
+              <p># Adiciona permissão de execução apenas para o proprietário</p>
+              <p class="text-emerald-400">chmod u+x script.sh</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">2. Alterando Propriedade: <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">chown</code></h4>
+            <p class="text-slate-600 text-xs">
+              Modifica o proprietário e/ou o grupo associado a um recurso do sistema de arquivos:
+            </p>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Altera o dono para 'rafael' e o grupo para 'docentes'</p>
+              <p class="text-emerald-400">chown rafael:docentes /var/www/html/index.html</p>
+              <p># Altera recursivamente em todo o diretório</p>
+              <p class="text-emerald-400">chown -R rafael:docentes /var/www/html/</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-l-4 border-slate-900 rounded-r border-t border-b border-r border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900">3. Gerenciamento de Usuários: <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">useradd</code> e <code class="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">passwd</code></h4>
+            <p class="text-slate-600 text-xs">
+              Criação de contas de usuário e definição de senhas de acesso no sistema:
+            </p>
+            <div class="bg-slate-900 text-slate-100 p-3 rounded font-mono text-xs space-y-1">
+              <p># Cria o usuário 'aluno' com pasta /home/aluno e shell bash</p>
+              <p class="text-emerald-400">useradd -m -s /bin/bash aluno</p>
+              <p># Define ou altera a senha do usuário</p>
+              <p class="text-emerald-400">passwd aluno</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Seção 4: Permissões Especiais -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">4. Permissões Especiais (SUID, SGID e Sticky Bit)</h2>
+        <p class="text-slate-700 leading-relaxed text-justify">
+          Sistemas Unix possuem bits de permissão estendidos para atender casos de uso avançados:
+        </p>
+
+        <div class="space-y-3 text-sm text-slate-600 my-4">
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">SUID (Set User ID):</strong>
+            Faz com que um arquivo executável rode com os privilégios do seu *proprietário*, e não de quem o executou (ex: comando <code class="font-mono text-xs">passwd</code>).
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">SGID (Set Group ID):</strong>
+            Garante que novos arquivos criados num diretório herdem o grupo do diretório pai, em vez do grupo primário do usuário criador.
+          </div>
+          <div class="p-4 bg-slate-50 border-l-2 border-slate-700">
+            <strong class="text-slate-900 block font-medium">Sticky Bit:</strong>
+            Utilizado em diretórios compartilhados de escrita pública (como <code class="font-mono text-xs">/tmp</code>), garantindo que apenas o proprietário do arquivo possa removê-lo.
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 5: Atividade de Fixação -->
+      <section class="space-y-4 border-t border-slate-100 pt-8">
+        <h2 class="text-xl font-bold text-slate-900">5. Questões para Fixação e Discussão</h2>
+        
+        <div class="space-y-4 text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 1:</p>
+            <p class="text-slate-600">Represente em notação octal a permissão de um arquivo que concede leitura, escrita e execução para o dono, apenas leitura e execução para o grupo, e nenhuma permissão para outros.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded">
+            <p class="font-semibold text-slate-900 mb-1">Questão 2:</p>
+            <p class="text-slate-600">Por que o comando <code class="font-mono text-xs">passwd</code> necessita da permissão especial SUID (Set User ID) ativada no seu binário executável?</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rodapé do Artigo -->
+      <footer class="border-t border-slate-200 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+        <span>Sistemas de Informação — Sistemas Operacionais</span>
+        <a href="index.html" class="bg-slate-900 text-white px-4 py-2 rounded text-xs hover:bg-slate-800 transition-colors">
+          Voltar para o Portal de Aulas
+        </a>
+      </footer>
+
+    </article>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>Sistemas de Informação — Sistemas Operacionais</span>
+      <span>Prof. Rafael Vainisckas Lapreza</span>
+    </div>
+  </footer>
+
+</body>
+</html>
